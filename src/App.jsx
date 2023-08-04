@@ -1,13 +1,31 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import styled from "styled-components";
+
+const GreenButton = styled.button`
+  background-color: greenyellow;
+  padding: 10px;
+  color: #474747;
+  border: none;
+  font-size: 2rem;
+  border-radius: 8px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  align-items: center;
+  background-color: purple;
+`;
 
 function App() {
   return (
-    <>
-      <h1>Hello World</h1>
-    </>
+    <div>
+      <Header className="header">
+        <h2 style={{ color: "white" }}>Spotify Playlist Editor</h2>
+        <GreenButton className="login-button">Login</GreenButton>
+      </Header>
+    </div>
   );
 }
 
