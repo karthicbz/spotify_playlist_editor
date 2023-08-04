@@ -3,11 +3,12 @@ import "./App.css";
 import styled from "styled-components";
 import { spotifyContent } from "./components/Router";
 import UserDetails from "./components/UserDetails";
+import UserPlaylists from "./components/UserPlaylists";
 
 const GreenButton = styled.a`
-  background-color: greenyellow;
+  background-color: #bc2cbc;
   padding: 10px;
-  color: #474747;
+  color: white;
   border: none;
   font-size: 2rem;
   border-radius: 8px;
@@ -64,11 +65,14 @@ function App() {
   return (
     <div>
       <Header className="header">
-        <h2 style={{ color: "white" }}>Spotify Playlist Editor</h2>
+        <h2 style={{ color: "white", fontFamily: "'Fira Sans', sans-serif" }}>
+          Spotify Playlist Editor
+        </h2>
         <GreenButton href={authUrl}>Login</GreenButton>
       </Header>
       <div className="body">
         <UserDetails />
+        <UserPlaylists />
       </div>
     </div>
   );

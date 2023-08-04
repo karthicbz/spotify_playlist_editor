@@ -22,7 +22,15 @@ const UserDetails = () => {
 
   return (
     <div>
-      <p>{username !== "" ? username : ""}</p>
+      <p
+        style={{
+          fontSize: "2rem",
+          padding: "8px",
+          fontFamily: "'Fira Sans', sans-serif",
+        }}
+      >
+        {username !== undefined ? username + "'s playlist" : ""}
+      </p>
     </div>
   );
 };
