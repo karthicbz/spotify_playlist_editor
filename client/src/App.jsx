@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./App.css";
 import styled from "styled-components";
+import { spotifyContent } from "./components/Router";
+import UserDetails from "./components/UserDetails";
 
 const GreenButton = styled.a`
   background-color: greenyellow;
@@ -21,6 +23,9 @@ const Header = styled.div`
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
+  const [authCode, setAuthCode] = useState("");
+  const { setToken } = useContext(spotifyContent);
+
   const authUrl = `https://accounts.spotify.com/authorize?client_id=${
     import.meta.env.VITE_CLIENTID
   }&response_type=code&redirect_uri=${
@@ -29,35 +34,30 @@ function App() {
 
   function getCode() {
     const code = new URLSearchParams(window.location.search).get("code");
-    return code;
+    // return code;
+    setAuthCode(code);
   }
 
   async function getAuthToken(code) {
-    let urlEncoded = new URLSearchParams();
-    urlEncoded.append("grant_type", "authorization_code");
-    urlEncoded.append("code", code);
-    urlEncoded.append("redirect_uri", import.meta.env.VITE_REDIRECTURI);
-
-    var requestOptions = {
-      method: "POST",
+    const response = await fetch("http://localhost:3000/login", {
+      mode: "cors",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
-      body: urlEncoded,
-    };
-
-    const response = await fetch(
-      "https://accounts.spotify.com/api/token",
-      requestOptions
-    );
+      body: JSON.stringify({ code: `${code}` }),
+      method: "POST",
+    });
     const token = await response.json();
-    console.log(token);
+    // console.log(token);
+    // setAccessToken(token);
+    setToken(token);
   }
 
   useEffect(() => {
     let code = getCode();
-    if (code !== "") {
-      getAuthToken(code);
+    // console.log(code);
+    if (authCode !== "") {
+      getAuthToken(authCode);
     }
   });
 
@@ -67,7 +67,9 @@ function App() {
         <h2 style={{ color: "white" }}>Spotify Playlist Editor</h2>
         <GreenButton href={authUrl}>Login</GreenButton>
       </Header>
-      <div className="body"></div>
+      <div className="body">
+        <UserDetails />
+      </div>
     </div>
   );
 }
