@@ -33,12 +33,6 @@ function App() {
     import.meta.env.VITE_REDIRECTURI
   }&scope=playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public app-remote-control streaming`;
 
-  function getCode() {
-    const code = new URLSearchParams(window.location.search).get("code");
-    // return code;
-    setAuthCode(code);
-  }
-
   async function getAuthToken(code) {
     const response = await fetch("http://localhost:3000/login", {
       mode: "cors",
@@ -55,12 +49,13 @@ function App() {
   }
 
   useEffect(() => {
-    let code = getCode();
-    // console.log(code);
-    if (authCode !== "") {
-      getAuthToken(authCode);
-    }
-  });
+    const code = new URLSearchParams(window.location.search).get("code");
+    setAuthCode(code);
+  }, []);
+
+  useEffect(() => {
+    getAuthToken(authCode);
+  }, [authCode]);
 
   return (
     <div>

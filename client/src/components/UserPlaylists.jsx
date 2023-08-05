@@ -9,6 +9,18 @@ const GridDiv = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   padding: 8px;
 
+  & > div {
+    cursor: pointer;
+    display: grid;
+    justify-items: center;
+    padding: 4px;
+    transition: box-shadow ease-in-out 0.3s;
+  }
+
+  & > div:hover {
+    box-shadow: 3px 2px 9px 0px #bdb7b7;
+  }
+
   & > div > h2 {
     font-family: "Fira Sans", sans-serif;
   }
