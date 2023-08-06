@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import { createContext } from "react";
+import PlaylistSongs from "./PlaylistSongs";
 
 export const spotifyContent = createContext(null);
 const Router = () => {
@@ -24,7 +25,7 @@ const Router = () => {
     if (tokenDetails !== "") {
       const interval = setInterval(() => {
         refreshToken();
-      }, tokenDetails.token_expiry);
+      }, tokenDetails.token_expiry * 1000);
       return () => clearInterval(interval);
     }
   }, [tokenDetails]);
@@ -45,6 +46,10 @@ const Router = () => {
     {
       path: "/",
       element: <App />,
+    },
+    {
+      path: "/:id",
+      element: <PlaylistSongs />,
     },
   ]);
 

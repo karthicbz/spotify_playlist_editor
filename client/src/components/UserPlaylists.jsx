@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { spotifyContent } from "./Router";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-const GridDiv = styled.div`
+export const GridDiv = styled.div`
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -21,8 +22,14 @@ const GridDiv = styled.div`
     box-shadow: 3px 2px 9px 0px #bdb7b7;
   }
 
-  & > div > h2 {
+  & > div > a {
+    text-decoration: none;
+  }
+
+  & > div > a > p {
     font-family: "Fira Sans", sans-serif;
+    color: black;
+    font-size: 1.2rem;
   }
 `;
 
@@ -50,8 +57,10 @@ const UserPlaylists = () => {
           return (
             <div key={detail.id}>
               {/* <img src={detail.images[1].url} /> */}
-              <img src={detail.images[0].url} style={{ maxWidth: "250px" }} />
-              <h2>{detail.name}</h2>
+              <Link to={`/${detail.id}`}>
+                <img src={detail.images[0].url} style={{ maxWidth: "250px" }} />
+                <p>{detail.name}</p>
+              </Link>
             </div>
           );
         })
