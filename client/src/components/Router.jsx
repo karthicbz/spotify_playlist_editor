@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import App from "../App";
 import { createContext } from "react";
 import PlaylistSongs from "./PlaylistSongs";
+import Header from "./Header";
 
 export const spotifyContent = createContext(null);
 const Router = () => {
   const [tokenDetails, setTokenDetails] = useState("");
+  const [userDetails, setUserDetails] = useState("");
   const [expiryTime, setExpiryTime] = useState(0);
 
   useEffect(() => {
@@ -39,6 +41,10 @@ const Router = () => {
     setToken(data);
   }
 
+  function setUser(details) {
+    setUserDetails(details);
+  }
+
   function setToken(token) {
     setTokenDetails(token);
   }
@@ -46,16 +52,23 @@ const Router = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <App />,
-    },
-    {
-      path: "/:id",
-      element: <PlaylistSongs />,
+      element: (
+        <>
+          <Header />
+          <Outlet />
+        </>
+      ),
+      children: [
+        { path: "/", element: <App /> },
+        { path: "/:id", element: <PlaylistSongs /> },
+      ],
     },
   ]);
 
   return (
-    <spotifyContent.Provider value={{ tokenDetails, setToken }}>
+    <spotifyContent.Provider
+      value={{ tokenDetails, setToken, setUser, userDetails }}
+    >
       <RouterProvider router={router} />
     </spotifyContent.Provider>
   );

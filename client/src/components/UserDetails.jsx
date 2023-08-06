@@ -2,8 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { spotifyContent } from "./Router";
 
 const UserDetails = () => {
-  const { tokenDetails } = useContext(spotifyContent);
-  const [username, setUsername] = useState("");
+  const { tokenDetails, setUser, userDetails } = useContext(spotifyContent);
+  // const [username, setUsername] = useState("");
   let myHeader = new Headers();
   myHeader.append("Authorization", `Bearer ${tokenDetails.access_token}`);
 
@@ -13,11 +13,13 @@ const UserDetails = () => {
       headers: myHeader,
     });
     const data = await response.json();
-    setUsername(data.display_name);
+    // console.log(data);
+    setUser(data);
   }
 
   useEffect(() => {
     getUserName();
+    // setUser("hello");
   }, [tokenDetails]);
 
   return (
@@ -30,7 +32,9 @@ const UserDetails = () => {
           color: "#78c945",
         }}
       >
-        {username !== undefined ? username + "'s playlist" : ""}
+        {userDetails !== undefined
+          ? userDetails.display_name + "'s playlist"
+          : ""}
       </p>
     </div>
   );

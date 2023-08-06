@@ -36,6 +36,8 @@ export const GridDiv = styled.div`
 const UserPlaylists = () => {
   const { tokenDetails } = useContext(spotifyContent);
   const [playlistDetails, setPlaylistDetails] = useState([]);
+  const [playlistName, setPlaylistName] = useState("");
+
   let myHeader = new Headers();
   myHeader.append("Authorization", `Bearer ${tokenDetails.access_token}`);
 
@@ -47,9 +49,15 @@ const UserPlaylists = () => {
     const data = await response.json();
     setPlaylistDetails(data.items);
   }
+
+  async function createNewPlaylist() {
+    // const response = await
+  }
+
   useEffect(() => {
     getPlayList();
   }, [tokenDetails]);
+
   return (
     <GridDiv>
       {playlistDetails !== undefined ? (
@@ -75,6 +83,10 @@ const UserPlaylists = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+          }}
+          onClick={() => {
+            const name = prompt("New Playlist name?");
+            setPlaylistName(name);
           }}
         >
           <span class="material-symbols-outlined" style={{ fontSize: "4rem" }}>

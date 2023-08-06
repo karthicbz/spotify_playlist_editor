@@ -65,7 +65,6 @@ const PlaylistSongs = () => {
           fontSize: "2rem",
           padding: "10px",
           color: "#78c945",
-          textShadow: "2px 2px darkgreen",
         }}
       >
         Tracks
