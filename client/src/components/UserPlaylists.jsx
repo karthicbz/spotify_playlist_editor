@@ -34,12 +34,13 @@ export const GridDiv = styled.div`
 `;
 
 const UserPlaylists = () => {
-  const { tokenDetails } = useContext(spotifyContent);
+  const { tokenDetails, userDetails } = useContext(spotifyContent);
   const [playlistDetails, setPlaylistDetails] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
 
   let myHeader = new Headers();
   myHeader.append("Authorization", `Bearer ${tokenDetails.access_token}`);
+  myHeader.append("Content-Type", "application/json");
 
   async function getPlayList() {
     const response = await fetch("https://api.spotify.com/v1/me/playlists", {
@@ -51,7 +52,19 @@ const UserPlaylists = () => {
   }
 
   async function createNewPlaylist() {
-    // const response = await
+    const response = await fetch(
+      `https://api.spotify.com/v1/users/${userDetails.id}/playlists`,
+      {
+        mode: "cors",
+        headers: myHeader,
+        body: JSON.stringify({
+          name: `${playlistName}`,
+          description: "",
+          public: true,
+        }),
+        method: "POST",
+      }
+    );
   }
 
   useEffect(() => {
@@ -66,7 +79,14 @@ const UserPlaylists = () => {
             <div key={detail.id}>
               {/* <img src={detail.images[1].url} /> */}
               <Link to={`/${detail.id}`}>
-                <img src={detail.images[0].url} style={{ maxWidth: "250px" }} />
+                {detail.images[0] !== undefined ? (
+                  <img
+                    src={detail.images[0].url}
+                    style={{ maxWidth: "250px" }}
+                  />
+                ) : (
+                  <span class="material-symbols-outlined">imagesmode</span>
+                )}
                 <p>{detail.name}</p>
               </Link>
             </div>
