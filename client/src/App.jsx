@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { spotifyContent } from "./components/Router";
 import UserDetails from "./components/UserDetails";
 import UserPlaylists from "./components/UserPlaylists";
+import headerBackground from "./assets/header-background.jpg";
 
 const GreenButton = styled.a`
   background-color: #bc2cbc;
@@ -19,7 +20,8 @@ const Header = styled.div`
   justify-content: space-between;
   padding: 1rem;
   align-items: center;
-  background-color: purple;
+  /* background-color: purple; */
+  filter: contrast(1);
 `;
 
 function App() {
@@ -59,10 +61,19 @@ function App() {
 
   return (
     <div>
-      <Header className="header">
-        <h2 style={{ color: "white", fontFamily: "'Fira Sans', sans-serif" }}>
+      <Header
+        className="header"
+        style={{ background: `url(${headerBackground})` }}
+      >
+        <h1
+          style={{
+            fontFamily: "'Fira Sans', sans-serif",
+            color: "#78c945",
+            textShadow: "2px 2px Green",
+          }}
+        >
           Spotify Playlist Editor
-        </h2>
+        </h1>
         <GreenButton href={authUrl}>Login</GreenButton>
       </Header>
       <div className="body">

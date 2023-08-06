@@ -24,7 +24,9 @@ const Div = styled.div`
     position: absolute;
     bottom: 0;
     padding: 4px;
-    filter: invert(1);
+    /* filter: invert(1); */
+    color: #78c945;
+    text-shadow: 2px 2px darkgreen;
   }
 `;
 
@@ -58,7 +60,16 @@ const PlaylistSongs = () => {
 
   return (
     <div>
-      <p style={{ fontSize: "2rem", padding: "10px" }}>Tracks</p>
+      <p
+        style={{
+          fontSize: "2rem",
+          padding: "10px",
+          color: "#78c945",
+          textShadow: "2px 2px darkgreen",
+        }}
+      >
+        Tracks
+      </p>
       <Div className="track-grid">
         {songs.map((song) => {
           return (

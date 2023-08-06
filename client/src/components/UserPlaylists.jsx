@@ -67,6 +67,21 @@ const UserPlaylists = () => {
       ) : (
         <p>Login to see your playlists</p>
       )}
+      {playlistDetails !== undefined && (
+        <div
+          style={{
+            maxWidth: "250px",
+            minHeight: "250px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <span class="material-symbols-outlined" style={{ fontSize: "4rem" }}>
+            add
+          </span>
+        </div>
+      )}
     </GridDiv>
   );
 };

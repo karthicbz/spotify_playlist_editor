@@ -23,6 +23,7 @@ const Router = () => {
 
   useEffect(() => {
     if (tokenDetails !== "") {
+      console.log(tokenDetails.token_expiry * 1000);
       const interval = setInterval(() => {
         refreshToken();
       }, tokenDetails.token_expiry * 1000);

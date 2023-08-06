@@ -24,9 +24,10 @@ const UserDetails = () => {
     <div>
       <p
         style={{
-          fontSize: "2rem",
-          padding: "8px",
+          fontSize: "1.8rem",
+          padding: "10px",
           fontFamily: "'Fira Sans', sans-serif",
+          color: "#78c945",
         }}
       >
         {username !== undefined ? username + "'s playlist" : ""}
