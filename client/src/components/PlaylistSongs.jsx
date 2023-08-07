@@ -36,6 +36,7 @@ const SearchBar = styled.div`
   display: flex;
   justify-content: center;
   padding-bottom: 10px;
+  gap: 10px;
   & > input {
     width: 320px;
     font-size: 1.2rem;
@@ -47,9 +48,45 @@ const PlaylistSongs = () => {
   const { id } = useParams();
   const { tokenDetails } = useContext(spotifyContent);
   const [songs, setSongs] = useState([]);
+  const [songInput, setSongInput] = useState("");
+  const [searchedSongs, setSearchedSongs] = useState([]);
 
   const myHeader = new Headers();
   myHeader.append("Authorization", `Bearer ${tokenDetails.access_token}`);
+
+  function handleSongInput(e) {
+    setSongInput(e.target.value);
+  }
+
+  async function fetchSongs() {
+    const response = await fetch(
+      `https://api.spotify.com/v1/search?q=${songInput}&type=album`,
+      {
+        mode: "cors",
+        headers: myHeader,
+      }
+    );
+    const data = await response.json();
+    setSearchedSongs(data.albums.items);
+  }
+
+  async function addSelectedSong() {
+    myHeader.append("Content-Type", "application/json");
+    const s = searchedSongs.filter((song) => song.name === songInput);
+    let raw = `{"uris":["spotify:track:${s[0].id}"]}`;
+    const response = await fetch(
+      `https://api.spotify.com/v1/playlists/${id}/tracks`,
+      { mode: "cors", method: "POST", headers: myHeader, body: raw }
+    );
+    const data = await response.json();
+    console.log(data);
+  }
+
+  useEffect(() => {
+    if (songInput !== "") {
+      fetchSongs();
+    }
+  }, [songInput]);
 
   async function getPlaylistItems() {
     try {
@@ -83,8 +120,18 @@ const PlaylistSongs = () => {
         Tracks
       </p>
       <SearchBar>
-        <input list="songs" name="songs" placeholder="add new song" />
-        <datalist id="songs"></datalist>
+        <input
+          list="songs"
+          name="songs"
+          placeholder="add new song"
+          onChange={handleSongInput}
+        />
+        <datalist id="songs">
+          {searchedSongs.map((song) => (
+            <option value={song.name} />
+          ))}
+        </datalist>
+        <button onClick={addSelectedSong}>Add</button>
       </SearchBar>
       <Div songs={songs} className="track-grid">
         {songs.length > 0 ? (
