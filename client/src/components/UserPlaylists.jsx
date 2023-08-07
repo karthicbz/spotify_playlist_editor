@@ -33,6 +33,19 @@ export const GridDiv = styled.div`
   }
 `;
 
+const DummyDiv = styled.div`
+  max-width: 250px;
+  min-height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > span {
+    font-size: 4rem;
+    color: #78c945;
+  }
+`;
+
 const UserPlaylists = () => {
   const { tokenDetails, userDetails } = useContext(spotifyContent);
   const [playlistDetails, setPlaylistDetails] = useState([]);
@@ -85,7 +98,9 @@ const UserPlaylists = () => {
                     style={{ maxWidth: "250px" }}
                   />
                 ) : (
-                  <span class="material-symbols-outlined">imagesmode</span>
+                  <DummyDiv>
+                    <span class="material-symbols-outlined">music_note</span>
+                  </DummyDiv>
                 )}
                 <p>{detail.name}</p>
               </Link>
@@ -96,23 +111,14 @@ const UserPlaylists = () => {
         <p>Login to see your playlists</p>
       )}
       {playlistDetails !== undefined && (
-        <div
-          style={{
-            maxWidth: "250px",
-            minHeight: "250px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+        <DummyDiv
           onClick={() => {
             const name = prompt("New Playlist name?");
             setPlaylistName(name);
           }}
         >
-          <span class="material-symbols-outlined" style={{ fontSize: "4rem" }}>
-            add
-          </span>
-        </div>
+          <span class="material-symbols-outlined">library_add</span>
+        </DummyDiv>
       )}
     </GridDiv>
   );
