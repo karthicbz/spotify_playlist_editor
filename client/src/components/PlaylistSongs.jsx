@@ -31,6 +31,18 @@ const Div = styled.div`
   }
 `;
 
+const SearchBar = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+  & > input {
+    width: 320px;
+    font-size: 1.2rem;
+    padding: 4px;
+  }
+`;
+
 const PlaylistSongs = () => {
   const { id } = useParams();
   const { tokenDetails } = useContext(spotifyContent);
@@ -70,6 +82,10 @@ const PlaylistSongs = () => {
       >
         Tracks
       </p>
+      <SearchBar>
+        <input list="songs" name="songs" placeholder="add new song" />
+        <datalist id="songs"></datalist>
+      </SearchBar>
       <Div songs={songs} className="track-grid">
         {songs.length > 0 ? (
           songs.map((song) => {
