@@ -49,7 +49,7 @@ const DummyDiv = styled.div`
 const UserPlaylists = () => {
   const { tokenDetails, userDetails } = useContext(spotifyContent);
   const [playlistDetails, setPlaylistDetails] = useState([]);
-  const [playlistName, setPlaylistName] = useState("");
+  // const [playlistName, setPlaylistName] = useState("");
 
   let myHeader = new Headers();
   myHeader.append("Authorization", `Bearer ${tokenDetails.access_token}`);
@@ -64,20 +64,20 @@ const UserPlaylists = () => {
     setPlaylistDetails(data.items);
   }
 
-  async function createNewPlaylist() {
+  async function createNewPlaylist(playlistName) {
+    let raw = `{"name": "${playlistName}","description": "New playlist description","public": false}`;
+    console.log(raw);
     const response = await fetch(
       `https://api.spotify.com/v1/users/${userDetails.id}/playlists`,
       {
         mode: "cors",
         headers: myHeader,
-        body: JSON.stringify({
-          name: `${playlistName}`,
-          description: "",
-          public: true,
-        }),
+        body: raw,
         method: "POST",
       }
     );
+    // console.log(response.json());
+    getPlayList();
   }
 
   useEffect(() => {
@@ -114,7 +114,8 @@ const UserPlaylists = () => {
         <DummyDiv
           onClick={() => {
             const name = prompt("New Playlist name?");
-            setPlaylistName(name);
+            // setPlaylistName(name);
+            createNewPlaylist(name);
           }}
         >
           <span class="material-symbols-outlined">library_add</span>
