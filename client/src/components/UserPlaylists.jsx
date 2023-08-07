@@ -99,7 +99,9 @@ const UserPlaylists = () => {
                   />
                 ) : (
                   <DummyDiv>
-                    <span class="material-symbols-outlined">music_note</span>
+                    <span className="material-symbols-outlined">
+                      music_note
+                    </span>
                   </DummyDiv>
                 )}
                 <p>{detail.name}</p>
@@ -115,10 +117,16 @@ const UserPlaylists = () => {
           onClick={() => {
             const name = prompt("New Playlist name?");
             // setPlaylistName(name);
-            createNewPlaylist(name);
+            if (name !== "" && name !== null) {
+              if (name) {
+                createNewPlaylist(name);
+              } else {
+                alert("Playlist name should not be empty");
+              }
+            }
           }}
         >
-          <span class="material-symbols-outlined">library_add</span>
+          <span className="material-symbols-outlined">library_add</span>
         </DummyDiv>
       )}
     </GridDiv>

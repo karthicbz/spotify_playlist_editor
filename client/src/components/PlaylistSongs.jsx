@@ -6,19 +6,20 @@ import { GridDiv } from "./UserPlaylists";
 import styled from "styled-components";
 
 const Div = styled.div`
-  display: grid;
+  display: ${(props) => (props.songs.length > 0 ? "grid" : "flex")};
+  justify-content: ${(props) => (props.length > 0 ? "unset" : "center")};
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 10px;
   padding: 5px 10px 10px 10px;
-  & > div {
+  & > .track-image {
     position: relative;
     cursor: pointer;
     transition: box-shadow ease-in-out 0.3s;
   }
-  & > div:hover {
+  & > .track-image:hover {
     box-shadow: 3px 2px 9px 0px #bdb7b7;
   }
-  & > div > p {
+  & > .track-image > p {
     font-size: 1.3rem;
     font-weight: 700;
     position: absolute;
@@ -69,21 +70,28 @@ const PlaylistSongs = () => {
       >
         Tracks
       </p>
-      <Div className="track-grid">
-        {songs.map((song) => {
-          return (
-            <div
-              key={song.track.id}
-              style={{
-                background: `url(${song.track.album.images[0].url})`,
-                maxWidth: "300px",
-                minHeight: "300px",
-              }}
-            >
-              <p>{song.track.name}</p>
-            </div>
-          );
-        })}
+      <Div songs={songs} className="track-grid">
+        {songs.length > 0 ? (
+          songs.map((song) => {
+            return (
+              <div
+                className="track-image"
+                key={song.track.id}
+                style={{
+                  background: `url(${song.track.album.images[0].url})`,
+                  maxWidth: "300px",
+                  minHeight: "300px",
+                }}
+              >
+                <p>{song.track.name}</p>
+              </div>
+            );
+          })
+        ) : (
+          <div>
+            <p>Empty Playlist ( ˘︹˘ )</p>
+          </div>
+        )}
       </Div>
     </div>
   );
