@@ -60,26 +60,30 @@ const PlaylistSongs = () => {
 
   async function fetchSongs() {
     const response = await fetch(
-      `https://api.spotify.com/v1/search?q=${songInput}&type=album`,
+      `https://api.spotify.com/v1/search?q=${songInput}&type=track`,
       {
         mode: "cors",
         headers: myHeader,
       }
     );
     const data = await response.json();
-    setSearchedSongs(data.albums.items);
+    setSearchedSongs(data.tracks.items);
   }
 
   async function addSelectedSong() {
-    myHeader.append("Content-Type", "application/json");
-    const s = searchedSongs.filter((song) => song.name === songInput);
-    let raw = `{"uris":["spotify:track:${s[0].id}"]}`;
-    const response = await fetch(
-      `https://api.spotify.com/v1/playlists/${id}/tracks`,
-      { mode: "cors", method: "POST", headers: myHeader, body: raw }
-    );
-    const data = await response.json();
-    console.log(data);
+    try {
+      const s = searchedSongs.filter((song) => song.name === songInput);
+      // console.log(s);
+      // let raw = `{"uris":["spotify:track:${s[0].id}"]}`;
+      const response = await fetch(
+        `https://api.spotify.com/v1/playlists/${id}/tracks?uris=${s[0].uri}`,
+        { mode: "cors", method: "POST", headers: myHeader }
+      );
+      getPlaylistItems();
+      setSongInput("");
+    } catch (err) {
+      console.log("something went wrong", err);
+    }
   }
 
   useEffect(() => {
@@ -125,6 +129,7 @@ const PlaylistSongs = () => {
           name="songs"
           placeholder="add new song"
           onChange={handleSongInput}
+          value={songInput}
         />
         <datalist id="songs">
           {searchedSongs.map((song) => (
