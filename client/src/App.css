@@ -15,3 +15,17 @@ body {
   font-family: "Fira Sans", sans-serif;
   /* background-color: rgb(11, 20, 11); */
 }
+
+.deleteButton {
+  background: #78c945;
+  opacity: 0;
+  transition: opacity ease-in-out 0.2s;
+}
+
+.deleteButton:hover {
+  background: #64a73b;
+}
+
+.showDelete {
+  opacity: 1;
+}

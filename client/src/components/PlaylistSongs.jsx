@@ -152,6 +152,37 @@ const PlaylistSongs = () => {
                 }}
               >
                 <p>{song.track.name}</p>
+                <div>
+                  <span
+                    class="material-symbols-outlined"
+                    onClick={(e) =>
+                      e.target.parentNode.childNodes[1].classList.toggle(
+                        "showDelete"
+                      )
+                    }
+                    style={{
+                      color: "#97ee0b",
+                      fontSize: "1.2rem",
+                      background: "green",
+                      borderRadius: "50%",
+                    }}
+                  >
+                    more_vert
+                  </span>
+                  <div
+                    id={song.track.uri}
+                    className="deleteButton"
+                    style={{
+                      maxWidth: "max-content",
+                      color: "white",
+                      padding: "4px",
+                      margin: "3px",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    delete
+                  </div>
+                </div>
               </div>
             );
           })
