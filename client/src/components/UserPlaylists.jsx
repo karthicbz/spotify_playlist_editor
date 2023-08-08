@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { spotifyContent } from "./Router";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import DeleteOption from "./DeleteOption";
 
 export const GridDiv = styled.div`
   display: grid;
@@ -20,6 +21,7 @@ export const GridDiv = styled.div`
     animation-duration: 0.5s;
     animation-direction: normal;
     animation-iteration-count: 1;
+    position: relative;
   }
 
   & > div:hover {
@@ -34,6 +36,16 @@ export const GridDiv = styled.div`
     font-family: "Fira Sans", sans-serif;
     color: black;
     font-size: 1.2rem;
+  }
+
+  & > div > div {
+    position: absolute;
+    left: 0;
+    padding: 4px;
+  }
+
+  & > div > div > span {
+    box-shadow: 1px 1px 4px gray;
   }
 
   @keyframes card-opening {
@@ -69,9 +81,9 @@ const UserPlaylists = () => {
 
   let myHeader = new Headers();
   myHeader.append("Authorization", `Bearer ${tokenDetails.access_token}`);
-  myHeader.append("Content-Type", "application/json");
 
   async function getPlayList() {
+    myHeader.append("Content-Type", "application/json");
     const response = await fetch("https://api.spotify.com/v1/me/playlists", {
       mode: "cors",
       headers: myHeader,
@@ -81,6 +93,7 @@ const UserPlaylists = () => {
   }
 
   async function createNewPlaylist(playlistName) {
+    myHeader.append("Content-Type", "application/json");
     let raw = `{"name": "${playlistName}","description": "New playlist description","public": false}`;
     console.log(raw);
     const response = await fetch(
@@ -99,6 +112,22 @@ const UserPlaylists = () => {
   useEffect(() => {
     getPlayList();
   }, [tokenDetails]);
+
+  async function deletePlaylist(e) {
+    try {
+      const response = await fetch(
+        `https://api.spotify.com/v1/playlists/${e.target.id}/followers`,
+        {
+          mode: "cors",
+          method: "DELETE",
+          headers: myHeader,
+        }
+      );
+      getPlayList();
+    } catch (err) {
+      console.log("Something wrong", err);
+    }
+  }
 
   return (
     <GridDiv>
@@ -122,6 +151,7 @@ const UserPlaylists = () => {
                 )}
                 <p>{detail.name}</p>
               </Link>
+              <DeleteOption id={detail.id} deleteItem={deletePlaylist} />
             </div>
           );
         })
