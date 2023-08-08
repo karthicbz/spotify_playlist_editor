@@ -5,7 +5,7 @@ const DeleteOption = ({ id, deleteItem }) => {
   return (
     <div>
       <span
-        class="material-symbols-outlined"
+        className="material-symbols-outlined"
         onClick={(e) =>
           e.target.parentNode.childNodes[1].classList.toggle("showDelete")
         }
@@ -14,6 +14,7 @@ const DeleteOption = ({ id, deleteItem }) => {
           fontSize: "1.2rem",
           background: "green",
           borderRadius: "50%",
+          boxShadow: "1px 1px 4px gray",
         }}
       >
         more_vert

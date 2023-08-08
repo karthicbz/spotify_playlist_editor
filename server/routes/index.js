@@ -2,12 +2,13 @@ var express = require("express");
 var router = express.Router();
 const spotifyWebApi = require("spotify-web-api-node");
 const asynchandler = require("express-async-handler");
+require("dotenv").config();
 
 /* GET home page. */
 const credentials = {
-  clientId: "032f73fa6bac4d4f88026656c01a7654",
-  clientSecret: "f7a34671cdee4d4f870a944d743d168e",
-  redirectUri: "http://localhost:5173/",
+  clientId: process.env.CLIENTID,
+  clientSecret: process.env.CLIENTSECRET,
+  redirectUri: process.env.REDIRECTURI,
 };
 
 const spotifyApi = new spotifyWebApi(credentials);

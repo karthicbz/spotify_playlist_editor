@@ -4,6 +4,7 @@ import { spotifyContent } from "./Router";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import DeleteOption from "./DeleteOption";
+import Spinner from "./Spinner";
 
 export const GridDiv = styled.div`
   display: grid;
@@ -44,10 +45,6 @@ export const GridDiv = styled.div`
     padding: 4px;
   }
 
-  & > div > div > span {
-    box-shadow: 1px 1px 4px gray;
-  }
-
   @keyframes card-opening {
     from {
       transform: scale(0);
@@ -77,12 +74,14 @@ const DummyDiv = styled.div`
 const UserPlaylists = () => {
   const { tokenDetails, userDetails } = useContext(spotifyContent);
   const [playlistDetails, setPlaylistDetails] = useState([]);
+  const [loading, setLoading] = useState(false);
   // const [playlistName, setPlaylistName] = useState("");
 
   let myHeader = new Headers();
   myHeader.append("Authorization", `Bearer ${tokenDetails.access_token}`);
 
   async function getPlayList() {
+    setLoading(true);
     myHeader.append("Content-Type", "application/json");
     const response = await fetch("https://api.spotify.com/v1/me/playlists", {
       mode: "cors",
@@ -90,6 +89,7 @@ const UserPlaylists = () => {
     });
     const data = await response.json();
     setPlaylistDetails(data.items);
+    setLoading(false);
   }
 
   async function createNewPlaylist(playlistName) {
@@ -129,7 +129,9 @@ const UserPlaylists = () => {
     }
   }
 
-  return (
+  return loading ? (
+    <Spinner loading={loading} label="Getting playlist" />
+  ) : (
     <GridDiv>
       {playlistDetails !== undefined ? (
         playlistDetails.map((detail) => {

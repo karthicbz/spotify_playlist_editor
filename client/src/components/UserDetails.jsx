@@ -32,7 +32,7 @@ const UserDetails = () => {
           color: "#78c945",
         }}
       >
-        {userDetails !== undefined
+        {userDetails.display_name !== undefined
           ? userDetails.display_name + "'s playlist"
           : ""}
       </p>

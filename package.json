@@ -1,0 +1,18 @@
+{
+  "name": "spotify_playlist_editor",
+  "version": "1.0.0",
+  "description": "Fun project to learn about apis and oauth authendication using spotify api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-client": "cd client && npm run dev",
+    "start-server": "cd server && npm run server",
+    "server": "concurrently \"npm run start-client\" \"npm run start-server\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.0"
+  }
+}

@@ -9,11 +9,11 @@ export const spotifyContent = createContext(null);
 const Router = () => {
   const [tokenDetails, setTokenDetails] = useState("");
   const [userDetails, setUserDetails] = useState("");
-  const [expiryTime, setExpiryTime] = useState(0);
+  // const [expiryTime, setExpiryTime] = useState(0);
 
-  useEffect(() => {
-    setExpiryTime(tokenDetails.token_expiry);
-  }, [tokenDetails]);
+  // useEffect(() => {
+  //   setExpiryTime(tokenDetails.token_expiry);
+  // }, [tokenDetails]);
 
   // useEffect(() => {
   //   const interval = setInterval(() => {

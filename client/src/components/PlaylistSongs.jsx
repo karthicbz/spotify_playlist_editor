@@ -5,6 +5,7 @@ import { spotifyContent } from "./Router";
 import { GridDiv } from "./UserPlaylists";
 import styled from "styled-components";
 import DeleteOption from "./DeleteOption";
+import Spinner from "./Spinner";
 
 const Div = styled.div`
   display: ${(props) => (props.songs.length > 0 ? "grid" : "flex")};
@@ -67,6 +68,7 @@ const PlaylistSongs = () => {
   const [songs, setSongs] = useState([]);
   const [songInput, setSongInput] = useState("");
   const [searchedSongs, setSearchedSongs] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const myHeader = new Headers();
   myHeader.append("Authorization", `Bearer ${tokenDetails.access_token}`);
@@ -111,6 +113,7 @@ const PlaylistSongs = () => {
 
   async function getPlaylistItems() {
     try {
+      setLoading(true);
       const response = await fetch(
         `https://api.spotify.com/v1/playlists/${id}/tracks`,
         {
@@ -120,6 +123,7 @@ const PlaylistSongs = () => {
       );
       const data = await response.json();
       setSongs(data.items);
+      setLoading(false);
     } catch (err) {
       console.log("something went wrong", err);
     }
@@ -173,30 +177,34 @@ const PlaylistSongs = () => {
         </datalist>
         <button onClick={addSelectedSong}>Add</button>
       </SearchBar>
-      <Div songs={songs} className="track-grid">
-        {songs.length > 0 ? (
-          songs.map((song) => {
-            return (
-              <div
-                className="track-image"
-                key={song.track.id}
-                style={{
-                  background: `url(${song.track.album.images[0].url})`,
-                  maxWidth: "300px",
-                  minHeight: "300px",
-                }}
-              >
-                <p>{song.track.name}</p>
-                <DeleteOption id={song.track.uri} deleteItem={deleteSong} />
-              </div>
-            );
-          })
-        ) : (
-          <div>
-            <p>Empty Playlist ( ˘︹˘ )</p>
-          </div>
-        )}
-      </Div>
+      {loading ? (
+        <Spinner loading={loading} label="Fetching Songs" />
+      ) : (
+        <Div songs={songs} className="track-grid">
+          {songs.length > 0 ? (
+            songs.map((song) => {
+              return (
+                <div
+                  className="track-image"
+                  key={song.track.id}
+                  style={{
+                    background: `url(${song.track.album.images[0].url})`,
+                    maxWidth: "300px",
+                    minHeight: "300px",
+                  }}
+                >
+                  <p>{song.track.name}</p>
+                  <DeleteOption id={song.track.uri} deleteItem={deleteSong} />
+                </div>
+              );
+            })
+          ) : (
+            <div>
+              <p>Empty Playlist ( ˘︹˘ )</p>
+            </div>
+          )}
+        </Div>
+      )}
     </div>
   );
 };
