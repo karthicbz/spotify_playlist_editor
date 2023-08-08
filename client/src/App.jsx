@@ -10,7 +10,8 @@ function App() {
   const { setToken } = useContext(spotifyContent);
 
   async function getAuthToken(code) {
-    const response = await fetch("http://localhost:3000/login", {
+    // console.log(`${import.meta.env.VITE_BACKENDURI}`);
+    const response = await fetch(`${import.meta.env.VITE_BACKENDURI}login`, {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",

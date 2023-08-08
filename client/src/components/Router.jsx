@@ -34,9 +34,12 @@ const Router = () => {
   }, [tokenDetails]);
 
   async function refreshToken() {
-    const response = await fetch("http://localhost:3000/refresh_token", {
-      mode: "cors",
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKENDURI}refresh_token`,
+      {
+        mode: "cors",
+      }
+    );
     const data = await response.json();
     setToken(data);
   }
