@@ -17,7 +17,7 @@ export const GridDiv = styled.div`
     padding: 4px;
     transition: box-shadow ease-in-out 0.3s;
     animation-name: card-opening;
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-direction: normal;
     animation-iteration-count: 1;
   }
