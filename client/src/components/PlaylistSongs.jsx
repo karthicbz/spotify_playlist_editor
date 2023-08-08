@@ -15,6 +15,10 @@ const Div = styled.div`
     position: relative;
     cursor: pointer;
     transition: box-shadow ease-in-out 0.3s;
+    animation-name: card-opening;
+    animation-duration: 1s;
+    animation-direction: normal;
+    animation-iteration-count: 1;
   }
   & > .track-image:hover {
     box-shadow: 3px 2px 9px 0px #bdb7b7;
@@ -28,6 +32,18 @@ const Div = styled.div`
     /* filter: invert(1); */
     color: #78c945;
     text-shadow: 2px 2px darkgreen;
+  }
+
+  @keyframes card-opening {
+    from {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.03);
+    }
+    to {
+      transform: scale(1);
+    }
   }
 `;
 
@@ -112,6 +128,24 @@ const PlaylistSongs = () => {
     getPlaylistItems();
   }, []);
 
+  async function deleteSong(e) {
+    try {
+      const raw = `{"tracks":[{"uri":"${e.target.id}"}]}`;
+      const response = await fetch(
+        `https://api.spotify.com/v1/playlists/${id}/tracks`,
+        {
+          mode: "cors",
+          method: "DELETE",
+          headers: myHeader,
+          body: raw,
+        }
+      );
+      getPlaylistItems();
+    } catch (err) {
+      console.log("Something wrong", err);
+    }
+  }
+
   return (
     <div>
       <p
@@ -179,6 +213,7 @@ const PlaylistSongs = () => {
                       margin: "3px",
                       borderRadius: "4px",
                     }}
+                    onClick={deleteSong}
                   >
                     delete
                   </div>

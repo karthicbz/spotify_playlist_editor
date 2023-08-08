@@ -16,6 +16,10 @@ export const GridDiv = styled.div`
     justify-items: center;
     padding: 4px;
     transition: box-shadow ease-in-out 0.3s;
+    animation-name: card-opening;
+    animation-duration: 1s;
+    animation-direction: normal;
+    animation-iteration-count: 1;
   }
 
   & > div:hover {
@@ -30,6 +34,18 @@ export const GridDiv = styled.div`
     font-family: "Fira Sans", sans-serif;
     color: black;
     font-size: 1.2rem;
+  }
+
+  @keyframes card-opening {
+    from {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.03);
+    }
+    to {
+      transform: scale(1);
+    }
   }
 `;
 
