@@ -107,7 +107,11 @@ const PlaylistSongs = () => {
 
   useEffect(() => {
     if (songInput !== "") {
-      fetchSongs();
+      // fetchSongs();
+      const interval = setInterval(() => {
+        fetchSongs();
+      }, 500);
+      return () => clearInterval(interval);
     }
   }, [songInput]);
 
